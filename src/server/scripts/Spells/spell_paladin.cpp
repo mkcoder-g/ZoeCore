@@ -126,6 +126,7 @@ enum PaladinProcSpells
     SPELL_PALADIN_RIGHTEOUS_VENGEANCE_DOT        = 61840,
     SPELL_PALADIN_SHEATH_OF_LIGHT_HOT            = 54203,
     SPELL_PALADIN_JUDGEMENT_OF_LIGHT_HEAL        = 20267,
+    SPELL_PALADIN_SEAL_OF_LIGHT_HEAL             = 20167,
     SPELL_PALADIN_JUDGEMENT_OF_WISDOM_MANA       = 20268,
     SPELL_PALADIN_SPIRITUAL_ATTUNEMENT_MANA      = 31786,
     SPELL_PALADIN_BEACON_OF_LIGHT_AURA           = 53563,
@@ -258,15 +259,36 @@ class spell_pal_seal_of_light : public AuraScript
 {
     PrepareAuraScript(spell_pal_seal_of_light);
 
+    bool Validate(SpellInfo const* /*spellInfo*/) override
+    {
+        return ValidateSpellInfo({ SPELL_PALADIN_SEAL_OF_LIGHT_HEAL });
+    }
+
     bool CheckProc(ProcEventInfo& eventInfo)
     {
         // xinef: skip divine storm self hit (dummy) and righteous vengeance (0x20000000=
         return eventInfo.GetActor() != eventInfo.GetProcTarget() && (!eventInfo.GetSpellInfo() || !eventInfo.GetSpellInfo()->SpellFamilyFlags.HasFlag(0x20000000));
     }
 
+    void HandleProc(AuraEffect const* /*aurEff*/, ProcEventInfo& eventInfo)
+    {
+        PreventDefaultAction();
+
+        Unit* caster = eventInfo.GetActor();
+        if (!caster)
+            return;
+
+        // ZoeCore Hard Edit balance:
+        // Seal of Light becomes too strong when item stats are scaled.
+        // Keep the mechanic, but cap the instant self-heal.
+        int32 bp = std::min<int32>(int32(caster->CountPctFromMaxHealth(1)), 25000);
+        caster->CastCustomSpell(caster, SPELL_PALADIN_SEAL_OF_LIGHT_HEAL, &bp, nullptr, nullptr, true);
+    }
+
     void Register() override
     {
         DoCheckProc += AuraCheckProcFn(spell_pal_seal_of_light::CheckProc);
+        OnEffectProc += AuraEffectProcFn(spell_pal_seal_of_light::HandleProc, EFFECT_0, SPELL_AURA_PROC_TRIGGER_SPELL);
     }
 };
 
@@ -690,6 +712,12 @@ class spell_pal_divine_storm_dummy : public SpellScript
             return;
 
         int32 heal = GetEffectValue() / _targetCount;
+
+        // ZoeCore Hard Edit balance:
+        // Divine Storm heal scales with damage. With custom hard-edit damage,
+        // this can become an instant full heal.
+        heal = std::min<int32>(heal / 6, 30000);
+
         GetCaster()->CastCustomSpell(GetHitUnit(), SPELL_PALADIN_DIVINE_STORM_HEAL, &heal, nullptr, nullptr, true);
     }
 private:
@@ -1344,6 +1372,12 @@ class spell_pal_judgement_of_light_heal : public AuraScript
             return;
 
         int32 bp = int32(attacker->CountPctFromMaxHealth(aurEff->GetAmount()));
+
+        // ZoeCore Hard Edit balance:
+        // Judgement of Light heals by % of max health. With custom hard-edit HP,
+        // this becomes an instant regen source.
+        bp = std::min<int32>(bp / 8, 35000);
+
         attacker->CastCustomSpell(attacker, SPELL_PALADIN_JUDGEMENT_OF_LIGHT_HEAL, &bp, nullptr, nullptr, true, nullptr, aurEff, GetCasterGUID());
     }
 
