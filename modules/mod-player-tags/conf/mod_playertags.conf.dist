@@ -1,0 +1,45 @@
+###################################################################################################
+# ZoeCore - Player Tags FREE / VIP / VIP MASTER
+#
+# Resultado:
+#   <FREE>Nome
+#   <VIP>Nome
+#   <VIP MASTER>Nome
+#
+# VIP e VIP MASTER são ativados automaticamente por itens diferentes.
+###################################################################################################
+
+PlayerTags.Enable = 1
+
+# Item que ativa VIP normal.
+# Troque pelo entry real do item_template.
+PlayerTags.VipItemId = 90000
+
+# Item que ativa VIP MASTER.
+# Se o player tiver VIP e VIP MASTER ao mesmo tempo, VIP MASTER tem prioridade.
+# Troque pelo entry real do item_template.
+PlayerTags.VipMasterItemId = 90001
+
+# Também procurar item no banco do personagem.
+# 0 = somente personagem online via Player::HasItemCount
+# 1 = tenta procurar no character_inventory quando o player não estiver encontrado online
+PlayerTags.Item.CheckOfflineInventory = 0
+
+# Procurar também no banco pessoal do personagem quando online.
+# 0 = bag/equipamento
+# 1 = bag/equipamento/banco
+PlayerTags.Item.CheckBank = 0
+
+PlayerTags.FreeTag = "FREE - "
+PlayerTags.VipTag = "VIP - "
+PlayerTags.VipMasterTag = "MASTER - "
+
+# Variáveis disponíveis:
+#   {tag}  = <FREE>, <VIP> ou <VIP MASTER>
+#   {name} = nome real do personagem
+PlayerTags.Format.Free = "{tag}{name}"
+PlayerTags.Format.Vip = "{tag}{name}"
+PlayerTags.Format.VipMaster = "{tag}{name}"
+
+# Limite de segurança para nome exibido.
+PlayerTags.MaxDisplayLength = 64
