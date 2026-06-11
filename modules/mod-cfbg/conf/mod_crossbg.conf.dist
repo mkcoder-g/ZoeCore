@@ -1,0 +1,226 @@
+#
+# Copyright (С) since 2019 Andrei Guluaev (Winfidonarleyan/Kargatum) https://github.com/Winfidonarleyan
+# Copyright (С) since 2019+ AzerothCore <www.azerothcore.org>
+# Licence MIT https://opensource.org/MIT
+#
+
+#############################
+# CFBG configuration system #
+#############################
+[worldserver]
+
+###################################################################################################
+#   CFBG
+#
+#   CFBG.Enable
+#       Description: Enable mixed alliance and horde in one battleground
+#       Default: 1
+#
+#   CFBG.Battlefield.Enable
+#       Description: Enable cross-faction queue for Wintergrasp battlefield.
+#                    Requires CFBG.Enable = 1. Players are assigned to the team
+#                    with fewer members, applying a visual race/faction change
+#                    for the duration of their stay in the zone.
+#       Default: 1
+#
+#   CFBG.Battlefield.TeamLock.Enable
+#       Description: Lock a player to the team they were first assigned for the
+#                    current Wintergrasp war. Prevents re-rolling their faction
+#                    by dropping out of the war and rejoining (also survives
+#                    leaving the zone and relogging). The lock is per-war and
+#                    resets when the war ends. Requires CFBG.Battlefield.Enable = 1.
+#       Default: 1 - (Enabled)
+#                0 - (Disabled)
+#
+#   CFBG.Battlefield.ReapplyOnResurrect.Enable
+#       Description: Re-apply a cross-faction player's assigned race/faction/morph
+#                    when they resurrect inside Wintergrasp, so the ghost->alive
+#                    transition does not revert them to their native faction.
+#                    Requires CFBG.Battlefield.Enable = 1.
+#       Default: 1 - (Enabled)
+#                0 - (Disabled)
+#
+#   CFBG.Include.Avg.Ilvl.Enable
+#       Description: Enable check average item level for bg
+#       Default: 0
+#
+#   CFBG.BalancedTeams
+#       Description: Enable check average player level for bg
+#       Default: 1
+#
+#   CFBG.BalancedTeams.Class.LowLevel
+#       Description: Enable class balance for BGs LowLevel
+#       Default: 0
+#                1 - (Enabled. Balance the number of Hunters per team)
+#
+#   CFBG.BalancedTeams.Class.MinLevel
+#       Description: Define min level to use the LowLevelClass balance
+#       Default: 10
+#
+#   CFBG.BalancedTeams.Class.MaxLevel
+#       Description: Define max level to use the LowLevelClass balance
+#       Default: 19
+#
+#   CFBG.BalancedTeams.Class.LevelDiff
+#       Description: Only taking into account characters having level >= BgMaxLevel - LevelDiff
+#                    for example in a 10-19 BG, if this value is set to 2, then it will consider only
+#                    players of level 17, 18, 19 (>= 19-2)
+#       Default: 2
+#
+#   CFBG.Players.Count.In.Group
+#       Description: Maximum players in party for enter queue
+#       Default: 3
+#
+#   CFBG.EvenTeams.Enabled
+#        Description: Set Battleground invitation type.
+#        Default:     0 - (Disabled, one team can have one extra player if an odd number of players queues)
+#                     1 - (Enabled. Get even teams.)
+#
+#   CFBG.EvenTeams.MaxPlayersThreshold
+#       Description: Per-team player count at which the EvenTeams rule stops being
+#                    enforced. While each team is below this size, teams are kept
+#                    strictly even (N vs N) and any surplus player waits in queue.
+#       Default: 0 - (EvenTeams enforced for all match sizes, no upper limit)
+#                >0 - (Once both teams reach this size, one team may gain an extra player)
+#
+#   CFBG.RandomRaceSelection
+#       Description: allows players to choose the race they will be morphed into when joining battlegrounds as the opposite team.
+#       Default: 1 - Random
+#                0 - Player choice
+#
+#   CFBG.BalanceTeamsOnEntry.Enabled
+#       Description: When a solo player enters a battleground while the teams are
+#                    uneven, move them to the smaller team according to the live
+#                    in-BG head counts at that moment. If the teams are already
+#                    even they keep the team chosen at invite time, and grouped
+#                    players are never moved.
+#       Default: 1 - (Enabled)
+#                0 - (Disabled)
+
+CFBG.Enable = 1
+CFBG.Battlefield.Enable = 1
+CFBG.Battlefield.TeamLock.Enable = 1
+CFBG.Battlefield.ReapplyOnResurrect.Enable = 1
+CFBG.BalancedTeams = 1
+CFBG.BalancedTeams.Class.LowLevel = 0
+CFBG.BalancedTeams.Class.MinLevel = 10
+CFBG.BalancedTeams.Class.MaxLevel = 19
+CFBG.BalancedTeams.Class.LevelDiff = 2
+CFBG.Include.Avg.Ilvl.Enable = 0
+CFBG.Players.Count.In.Group = 3
+CFBG.EvenTeams.Enabled = 0
+CFBG.EvenTeams.MaxPlayersThreshold = 0
+CFBG.ResetCooldowns = 0
+CFBG.Show.PlayerName = 0
+CFBG.RandomRaceSelection = 1
+CFBG.BalanceTeamsOnEntry.Enabled = 1
+
+
+###################################################################################################
+# ZoeCore Gear Bracket BG
+#
+# V1:
+# - Classifica o jogador ao entrar na BG usando a tabela world.custom_bg_item_tier.
+# - Normal: +0/+1
+# - Avancado: +2/+3
+# - Elite: +4
+# - Separa a fila por bracket quando houver jogadores suficientes.
+# - Bloqueia equip de item Cruel acima da categoria dentro da BG.
+# - Permite weapon swap, shield swap e offhand swap se o item continuar dentro da categoria.
+###################################################################################################
+
+#
+# CFBG.ZoeGearBracket.Enable
+#     Ativa o sistema ZoeCore de bracket por gear.
+#     Default: 0
+#
+CFBG.ZoeGearBracket.Enable = 1
+
+#
+# CFBG.ZoeGearBracket.Mode
+#     0 = off
+#     1 = apenas trava equipamento dentro da BG
+#     2 = reservado para balancear times por score/bracket
+#     3 = separar fila por bracket
+#     Default: 1
+#
+CFBG.ZoeGearBracket.Mode = 3
+
+#
+# CFBG.ZoeGearBracket.UseSqlItemTierTable
+#     Usa a tabela world.custom_bg_item_tier para mapear item -> tier.
+#     Default: 1
+#
+CFBG.ZoeGearBracket.UseSqlItemTierTable = 1
+
+#
+# Categorias:
+#     Normal   = +0/+1
+#     Advanced = +2/+3
+#     Elite    = +4
+#
+CFBG.ZoeGearBracket.Normal.MaxTier = 1
+CFBG.ZoeGearBracket.Advanced.MaxTier = 3
+CFBG.ZoeGearBracket.Elite.MaxTier = 4
+
+#
+# CFBG.ZoeGearBracket.LockEquipmentInsideBG
+#     Bloqueia equip de item acima da bracket dentro da BG.
+#     Default: 1
+#
+CFBG.ZoeGearBracket.LockEquipmentInsideBG = 1
+
+#
+# CFBG.ZoeGearBracket.AllowWeaponSwap
+#     Permite weapon/shield/offhand swap desde que o item seja compativel com a bracket.
+#     Default: 1
+#
+CFBG.ZoeGearBracket.AllowWeaponSwap = 1
+
+#
+# Auditoria anti-bypass.
+# V1 avisa se detectar item invalido equipado.
+#
+CFBG.ZoeGearBracket.PeriodicCheck.Enable = 1
+CFBG.ZoeGearBracket.PeriodicCheck.Seconds = 5
+
+#
+# Baixa populacao.
+# Default ZoeCore V2: 0 para impedir +4 cair com +0.
+# Se a populacao estiver baixa e voce quiser liberar fila mista, coloque 1.
+#
+CFBG.ZoeGearBracket.LowPopulationFallback = 0
+CFBG.ZoeGearBracket.FallbackWaitMinutes = 5
+CFBG.ZoeGearBracket.DisableEquipmentLockOnFallback = 0
+
+#
+# Mensagens.
+#
+CFBG.ZoeGearBracket.Announce = 1
+
+#
+# CFBG.ZoeGearBracket.Log.Enable
+#     Loga no console quando:
+#       - player for classificado em Normal/Avancado/Elite
+#       - BG for marcada com uma bracket
+#       - item for bloqueado
+#       - fallback de baixa populacao for acionado
+#
+CFBG.ZoeGearBracket.Log.Enable = 1
+
+#
+# CFBG.ZoeGearBracket.QueueAnnouncer.Enable
+#     Ativa mensagem custom no BG Queue Announcer com bracket ZoeCore.
+#
+# CFBG.ZoeGearBracket.QueueAnnouncer.ShowBracket
+#     Mostra Normal/Advanced/Elite no anúncio global.
+#
+# CFBG.ZoeGearBracket.QueueAnnouncer.UseBracketPlayerCount
+#     Quando Mode=3, mostra [x/y] contando apenas jogadores da mesma bracket.
+#     Exemplo: +0 mostra apenas fila Normal, +4 mostra apenas fila Elite.
+#
+CFBG.ZoeGearBracket.QueueAnnouncer.Enable = 1
+CFBG.ZoeGearBracket.QueueAnnouncer.ShowBracket = 1
+CFBG.ZoeGearBracket.QueueAnnouncer.UseBracketPlayerCount = 1
+
+CFBG.ZoeGearBracket.MessagePrefix = "[ZoeCore BG]"
