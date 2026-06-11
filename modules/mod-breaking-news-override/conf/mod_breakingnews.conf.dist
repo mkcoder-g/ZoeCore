@@ -1,0 +1,169 @@
+#
+# ZoeCore - Breaking News Override V3 FINAL
+# Config padronizada:
+#   configs/modules/mod_mod_breakingnews.conf
+#
+
+[worldserver]
+
+###################################################################################################
+# ZOECORE BREAKING NEWS
+#
+# Este módulo exibe uma janela de notícias no Character Select.
+# Os HTMLs ficam na pasta:
+#   news/
+#
+# Página padrão:
+#   news/news.html
+#
+# Outras páginas prontas:
+#   news/pvp.html
+#   news/events.html
+#   news/maintenance.html
+#   news/ranking.html
+#
+###################################################################################################
+
+#
+#    BreakingNews.Enable
+#        0 = Desativado
+#        1 = Ativado
+#
+
+BreakingNews.Enable = 1
+
+#
+#    BreakingNews.Title
+#        Título da janela.
+#        Evite caracteres especiais como [ ] ' \.
+#
+
+BreakingNews.Title = "ZoeCore News"
+
+#
+#    BreakingNews.HtmlPath
+#        Caminho manual/fallback.
+#        O padrão ZoeCore agora é ./news/news.html.
+#
+
+BreakingNews.HtmlPath = "./news/news.html"
+
+#
+#    BreakingNews.Cache
+#        0 = lê o HTML novamente a cada entrada na seleção de personagem.
+#        1 = carrega uma vez no startup/reload config.
+#
+# Recomendado para edição rápida de notícia: 0
+#
+
+BreakingNews.Cache = 0
+
+#
+#    BreakingNews.Verbose
+#        Logs detalhados. Use 0 em produção.
+#
+
+BreakingNews.Verbose = 0
+
+###################################################################################################
+# ZOECORE V3 - PÁGINAS DE NOTÍCIAS
+#
+#    BreakingNews.Zoe.ActivePage
+#        news        = usa BreakingNews.Zoe.NewsPath
+#        pvp         = usa BreakingNews.Zoe.PvpPath
+#        events      = usa BreakingNews.Zoe.EventsPath
+#        maintenance = usa BreakingNews.Zoe.MaintenancePath
+#        ranking     = usa BreakingNews.Zoe.RankingPath
+#
+# Para trocar a página exibida, altere apenas ActivePage.
+###################################################################################################
+
+BreakingNews.Zoe.ActivePage = "news"
+
+BreakingNews.Zoe.NewsPath = "./news/news.html"
+BreakingNews.Zoe.PvpPath = "./news/pvp.html"
+BreakingNews.Zoe.EventsPath = "./news/events.html"
+BreakingNews.Zoe.MaintenancePath = "./news/maintenance.html"
+BreakingNews.Zoe.RankingPath = "./news/ranking.html"
+
+#
+# Se a página selecionada falhar, tenta carregar news.html.
+#
+
+BreakingNews.Zoe.FallbackToNews = 1
+
+#
+# Logs ZoeCore.
+#
+
+BreakingNews.Zoe.Log.Enable = 1
+
+
+###################################################################################################
+# ZOECORE V4 - TAMANHO DA JANELA DE NOTÍCIAS
+#
+# Ajusta a caixa de Breaking News no Character Select.
+# Valores maiores aumentam a área visível do texto.
+#
+# Observação:
+# X/Y controlam a posição da janela.
+# Width/Height controlam o tamanho geral.
+# TextWidth/TextHeight controlam a área interna do texto.
+###################################################################################################
+
+BreakingNews.Zoe.Frame.X = 16
+BreakingNews.Zoe.Frame.Y = -160
+
+BreakingNews.Zoe.Frame.Width = 350
+BreakingNews.Zoe.Frame.Height = 535
+
+BreakingNews.Zoe.Frame.TextWidth = 300
+BreakingNews.Zoe.Frame.TextHeight = 405
+
+
+###################################################################################################
+# ZOECORE V5 - AJUSTE DA BARRA DE ROLAGEM
+#
+# Use estes offsets para alinhar melhor a área de scroll e a scrollbar.
+# Os valores padrão desta V5 já corrigem a barra ficando fora da caixa.
+###################################################################################################
+
+BreakingNews.Zoe.Scroll.TopLeftX = 22
+BreakingNews.Zoe.Scroll.TopLeftY = -44
+BreakingNews.Zoe.Scroll.BottomRightX = -30
+BreakingNews.Zoe.Scroll.BottomRightY = 34
+
+BreakingNews.Zoe.ScrollBar.TopRightX = -16
+BreakingNews.Zoe.ScrollBar.TopRightY = -34
+BreakingNews.Zoe.ScrollBar.BottomRightX = -16
+BreakingNews.Zoe.ScrollBar.BottomRightY = 38
+
+
+
+###################################################################################################
+# ZOECORE V6 - VISUAL POLISH
+###################################################################################################
+
+BreakingNews.Zoe.Title.Y = -18
+BreakingNews.Zoe.Text.Spacing = 4
+
+
+
+###################################################################################################
+# ZOECORE V7 - SCROLLBAR RESTORE
+#
+# Esta V7 restaura a barra de rolagem usando o comportamento padrão do client.
+# O módulo NÃO força mais a posição da scrollbar, para evitar ela sumir.
+#
+# As configs BreakingNews.Zoe.ScrollBar.* ficam como referência/backup,
+# mas nesta V7 quem controla a barra é o frame padrão do WoW.
+#
+# Para ajustar espaço interno do texto, use:
+#   BreakingNews.Zoe.Scroll.TopLeftX
+#   BreakingNews.Zoe.Scroll.TopLeftY
+#   BreakingNews.Zoe.Scroll.BottomRightX
+#   BreakingNews.Zoe.Scroll.BottomRightY
+###################################################################################################
+
+BreakingNews.Zoe.ScrollBar.UseCustomPosition = 0
+
