@@ -1,0 +1,96 @@
+[worldserver]
+
+###################################################################################################
+# ZOECORE DESERT V5 - DESERTER FALLBACK
+#
+# Config:
+#   configs/modules/mod_desert.conf
+#
+# O worldserver.conf pode continuar responsável pelo Deserter/spell 26013, mas a V5 adiciona fallback opcional caso a aura não seja aplicada.
+# Este módulo aplica aviso + punição econômica para deserção/abandono de BG.
+###################################################################################################
+
+DesertionWarnings.Enabled = 1
+
+###################################################################################################
+# AVISOS DE FILA
+#
+# Quando o jogador foi chamado para BG e não entrou ou saiu da fila.
+###################################################################################################
+
+DesertionWarnings.Zoe.Enable = 1
+DesertionWarnings.Zoe.MessagePrefix = "[ZoeCore BG]"
+
+DesertionWarnings.Zoe.TopScreen.Enable = 1
+DesertionWarnings.Zoe.Chat.Enable = 0
+DesertionWarnings.Zoe.Log.Enable = 1
+
+DesertionWarnings.Zoe.Warn.LeaveQueue = 1
+DesertionWarnings.Zoe.Warn.NoEnterButton = 1
+
+DesertionWarnings.Zoe.WarningText = "|cffff2020Voce recusou a entrada da BG.|r |cffffff00Seu time ficou em desvantagem.|r"
+DesertionWarnings.Zoe.LeaveQueueText = "|cffff2020Voce saiu da fila da BG apos ser chamado.|r |cffffff00Remova-se antes da BG iniciar para evitar abuso de fila.|r"
+DesertionWarnings.Zoe.NoEnterText = "|cffff2020Voce nao entrou na BG apos o convite.|r |cffffff00Entre quando for chamado ou saia da fila antes.|r"
+
+DesertionWarnings.Zoe.AbuseReminder.Enable = 1
+DesertionWarnings.Zoe.AbuseReminderText = "|cffffcc00Aviso registrado. Repetir isso pode resultar em punicao pela staff.|r"
+
+###################################################################################################
+# PUNIÇÃO ECONÔMICA PARA QUEM SAI DA BG
+#
+# Padrão:
+#   - perde 250 Honor
+#   - perde 2 Fragmentos Cruéis
+#   - Arena Points desligado
+#
+# Spell 26013 / Deserter:
+#   fica por conta do worldserver.conf.
+###################################################################################################
+
+DesertionWarnings.Zoe.LeaveBG.Penalty.Enable = 1
+DesertionWarnings.Zoe.LeaveBG.Penalty.Announce = 1
+DesertionWarnings.Zoe.LeaveBG.Penalty.Log = 1
+
+# Se sua core chamar o hook depois do jogador sair da BG, deixe 0.
+# Se quiser exigir que ele ainda esteja dentro de BG no momento do hook, coloque 1.
+DesertionWarnings.Zoe.LeaveBG.Penalty.RequireBattleground = 0
+
+# Tratar tipos desconhecidos do BattlegroundDesertionType como saída/abandono de BG.
+DesertionWarnings.Zoe.LeaveBG.Penalty.UnknownTypeAsLeaveBG = 1
+
+DesertionWarnings.Zoe.LeaveBG.Penalty.RemoveHonor = 1
+DesertionWarnings.Zoe.LeaveBG.Penalty.HonorAmount = 250
+
+DesertionWarnings.Zoe.LeaveBG.Penalty.RemoveArenaPoints = 0
+DesertionWarnings.Zoe.LeaveBG.Penalty.ArenaPointsAmount = 10
+
+DesertionWarnings.Zoe.LeaveBG.Penalty.RemoveItem = 1
+DesertionWarnings.Zoe.LeaveBG.Penalty.ItemEntry = 900001
+DesertionWarnings.Zoe.LeaveBG.Penalty.ItemCount = 2
+
+# Tags:
+#   {penalty} = texto completo do que foi removido
+#   {honor}   = honor removido
+#   {arena}   = arena points removido
+#   {item}    = quantidade de item removida
+DesertionWarnings.Zoe.LeaveBG.Penalty.Message = "|cffff2020Voce abandonou a BG.|r |cffffff00Punicao aplicada: {penalty}.|r |cffaaaaaaAbandonar partidas prejudica seu time.|r"
+
+
+###################################################################################################
+# ZOECORE V5 - DESERTER FALLBACK
+#
+# Use esta parte quando:
+#   Battleground.CastDeserter = 1
+# estiver ativo no worldserver.conf, mas sua core/mods não aplicarem a aura.
+#
+# O módulo aplica a spell de Deserter como fallback somente quando detectar abandono de BG.
+#
+# Spell:
+#   26013 = Deserter / Desertor
+###################################################################################################
+
+DesertionWarnings.Zoe.LeaveBG.DeserterFallback.Enable = 1
+DesertionWarnings.Zoe.LeaveBG.DeserterFallback.SpellId = 26013
+DesertionWarnings.Zoe.LeaveBG.DeserterFallback.OnlyIfMissing = 1
+DesertionWarnings.Zoe.LeaveBG.DeserterFallback.Log = 1
+
