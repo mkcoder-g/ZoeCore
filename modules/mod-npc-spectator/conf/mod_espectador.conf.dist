@@ -1,0 +1,32 @@
+[worldserver]
+
+###################################################################################################
+# ZOECORE ESPECTADOR ARENA V1
+#
+# NPC:
+#   .npc add 190000
+#
+# Observação:
+#   Este módulo é um NPC frontend para o sistema de spectator da core.
+#   Sua core precisa ter ArenaSpectator.h / comando .spectate.
+###################################################################################################
+
+NpcArenaSpectator.Enable = 1
+
+# Mostrar partidas não-rated / skirmish.
+NpcArenaSpectator.ShowUnrated = 1
+
+###################################################################################################
+# COMPATIBILIDADE ZOECORE
+###################################################################################################
+
+NpcArenaSpectator.1v1.Enable = 1
+NpcArenaSpectator.1v1.SlotID = 3
+NpcArenaSpectator.1v1.ArenaType = 1
+
+NpcArenaSpectator.3v3soloQ.Enable = 1
+NpcArenaSpectator.3v3soloQ.SlotID = 4
+NpcArenaSpectator.3v3soloQ.ArenaType = 4
+
+# 5v5 normalmente não é usado no ZoeCore PvP atual.
+NpcArenaSpectator.Enable5v5 = 0
